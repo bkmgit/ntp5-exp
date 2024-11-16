@@ -26,6 +26,7 @@ import collections
 import enum
 import ipaddress
 import logging
+import math
 import random
 import select
 import socket
@@ -75,6 +76,11 @@ class NtpEF(enum.IntEnum):
     DRAFT_ID = 0xf5ff
 
 OUR_DRAFT_ID = "draft-ietf-ntp-ntpv5-02+"
+# Length needs to be a multiple of 4 octets                                                                  
+DRAFT_ID_LENGTH = int(4*math.ceil(len(OUR_DRAFT_ID)/4.0))
+print("DRAFT_ID_LENGTH: ", DRAFT_ID_LENGTH)
+OUR_DRAFT_ID = OUR_DRAFT_ID + \
+    "\0" * (DRAFT_ID_LENGTH - len(OUR_DRAFT_ID))
 
 REFERENCE_IDS_OCTETS = 4096 // 8
 
